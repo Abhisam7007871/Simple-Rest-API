@@ -25,7 +25,30 @@ public class UserController {
         return users;
     }
 
+    // get user by id
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id){
+        return users.stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(null);
+    }
 
+    // update user
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser){
+        for(User user : users){
+            if(user.getId().equals(id)){
+                user.setName(updatedUser.getName());
+                user.setEmail(updatedUser.getEmail());
+                return user;
+            }
+        }
+        return null;
+    }
 
+    // delete user
+    @DeleteMapping("/{id")
+    public String deleteUser(@PathVariable Long id){
+        users.removeIf(user -> user.getId().equals(id));
+        return "User Deleted";
+    }
 
 }
