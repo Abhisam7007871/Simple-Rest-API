@@ -45,10 +45,19 @@ public class UserController {
     }
 
     // delete user
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id){
-        users.removeIf(user -> user.getId().equals(id));
-        return "User Deleted";
+//        users.removeIf(user -> user.getId().equals(id));
+//        return "User Deleted" users.u;
+
+        User userToDelete = users.stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(null);
+
+        if(userToDelete != null){
+            users.removeIf(user -> user.getId().equals(id));
+            return "User " + userToDelete.getName() + " has been deleted";
+        }else{
+            return "User not found";
+        }
     }
 
 }
